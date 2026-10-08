@@ -1,0 +1,954 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>AI Coach - AI Habit Coach</title>
+
+    <link rel="icon" href="data:,">
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            min-height: 100vh;
+            color: #ffffff;
+
+            background:
+                radial-gradient(
+                    circle at top left,
+                    #24104f 0%,
+                    transparent 35%
+                ),
+                radial-gradient(
+                    circle at top right,
+                    #102d55 0%,
+                    transparent 35%
+                ),
+                linear-gradient(
+                    135deg,
+                    #050816,
+                    #0b1024 50%,
+                    #080b18
+                );
+        }
+
+        .topbar {
+            width: 100%;
+            padding: 18px 30px;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            background: rgba(5, 8, 22, 0.92);
+
+            border-bottom:
+                1px solid
+                rgba(139, 92, 246, 0.35);
+
+            box-shadow:
+                0 5px 30px
+                rgba(0, 0, 0, 0.35);
+
+            position: sticky;
+            top: 0;
+            z-index: 100;
+
+            backdrop-filter: blur(12px);
+        }
+
+        .logo {
+            font-size: 23px;
+            font-weight: bold;
+            color: #ffffff;
+        }
+
+        .logo span {
+            color: #a78bfa;
+        }
+
+        .back-btn {
+            text-decoration: none;
+            color: #ffffff;
+
+            padding: 10px 18px;
+            border-radius: 10px;
+
+            border:
+                1px solid
+                rgba(139, 92, 246, 0.5);
+
+            background:
+                rgba(139, 92, 246, 0.15);
+
+            transition: 0.3s;
+        }
+
+        .back-btn:hover {
+            background:
+                rgba(139, 92, 246, 0.35);
+
+            box-shadow:
+                0 0 18px
+                rgba(139, 92, 246, 0.4);
+
+            transform:
+                translateY(-2px);
+        }
+
+        .container {
+            width: 92%;
+            max-width: 1100px;
+            margin: 40px auto;
+        }
+
+        .hero {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        .hero h1 {
+            font-size: 42px;
+            margin-bottom: 12px;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    #ffffff,
+                    #a78bfa,
+                    #60a5fa,
+                    #22d3ee
+                );
+
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            color: #cbd5e1;
+            font-size: 17px;
+        }
+
+        .coach-card {
+            background:
+                rgba(15, 23, 42, 0.78);
+
+            border:
+                1px solid
+                rgba(139, 92, 246, 0.30);
+
+            border-radius: 20px;
+            padding: 28px;
+            margin-bottom: 25px;
+
+            box-shadow:
+                0 15px 40px
+                rgba(0, 0, 0, 0.35),
+                0 0 25px
+                rgba(139, 92, 246, 0.08);
+
+            backdrop-filter: blur(12px);
+        }
+
+        .coach-card h2 {
+            margin-bottom: 20px;
+            color: #ffffff;
+            font-size: 24px;
+        }
+
+        .quick-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+        .quick-btn {
+            width: 100%;
+            min-height: 65px;
+
+            padding: 14px 18px;
+
+            border-radius: 14px;
+
+            border:
+                1px solid
+                rgba(139, 92, 246, 0.35);
+
+            background:
+                rgba(30, 41, 59, 0.85);
+
+            color: #ffffff;
+
+            font-size: 15px;
+            text-align: left;
+            cursor: pointer;
+
+            transition: all 0.25s ease;
+        }
+
+        .quick-btn:hover {
+            transform: translateY(-3px);
+
+            border-color: #8b5cf6;
+
+            background:
+                rgba(76, 29, 149, 0.35);
+
+            box-shadow:
+                0 0 20px
+                rgba(139, 92, 246, 0.25);
+        }
+
+        .quick-btn:active {
+            transform: scale(0.98);
+        }
+
+        .question-box {
+            margin-top: 10px;
+        }
+
+        #aiQuestion {
+            width: 100%;
+            min-height: 120px;
+
+            resize: vertical;
+
+            padding: 18px;
+
+            border-radius: 14px;
+
+            border:
+                1px solid
+                rgba(139, 92, 246, 0.45);
+
+            background:
+                rgba(2, 6, 23, 0.85);
+
+            color: #ffffff;
+
+            font-size: 16px;
+            outline: none;
+
+            transition: 0.3s;
+        }
+
+        #aiQuestion::placeholder {
+            color: #94a3b8;
+        }
+
+        #aiQuestion:focus {
+            border-color: #8b5cf6;
+
+            box-shadow:
+                0 0 20px
+                rgba(139, 92, 246, 0.25);
+        }
+
+        .ask-btn {
+            width: 100%;
+            margin-top: 16px;
+
+            padding: 15px;
+
+            border: none;
+            border-radius: 13px;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    #7c3aed,
+                    #2563eb
+                );
+
+            color: #ffffff;
+
+            font-size: 17px;
+            font-weight: bold;
+
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .ask-btn:hover {
+            transform: translateY(-2px);
+
+            box-shadow:
+                0 0 25px
+                rgba(124, 58, 237, 0.45);
+        }
+
+        .ask-btn:active {
+            transform: scale(0.98);
+        }
+
+        .ask-btn:disabled {
+            opacity: 0.65;
+            cursor: wait;
+        }
+
+        .response-box {
+            display: none;
+
+            margin-top: 25px;
+            padding: 22px;
+
+            border-radius: 16px;
+
+            background:
+                rgba(2, 6, 23, 0.85);
+
+            border:
+                1px solid
+                rgba(34, 211, 238, 0.35);
+
+            box-shadow:
+                0 0 25px
+                rgba(34, 211, 238, 0.08);
+        }
+
+        .response-title {
+            color: #22d3ee;
+
+            font-size: 20px;
+            font-weight: bold;
+
+            margin-bottom: 12px;
+        }
+
+        .response-text {
+            color: #e2e8f0;
+
+            line-height: 1.7;
+
+            white-space: pre-wrap;
+
+            font-size: 15px;
+        }
+
+        .loading {
+            color: #a78bfa;
+            animation: pulse 1.2s infinite;
+        }
+
+        @keyframes pulse {
+
+            0% {
+                opacity: 0.4;
+            }
+
+            50% {
+                opacity: 1;
+            }
+
+            100% {
+                opacity: 0.4;
+            }
+
+        }
+
+        .footer {
+            text-align: center;
+            padding: 25px;
+
+            color: #64748b;
+            font-size: 14px;
+        }
+
+        @media (max-width: 700px) {
+
+            .topbar {
+                padding: 15px;
+            }
+
+            .logo {
+                font-size: 18px;
+            }
+
+            .back-btn {
+                padding: 8px 12px;
+                font-size: 14px;
+            }
+
+            .container {
+                width: 94%;
+                margin: 25px auto;
+            }
+
+            .hero h1 {
+                font-size: 31px;
+            }
+
+            .hero p {
+                font-size: 14px;
+            }
+
+            .coach-card {
+                padding: 20px;
+            }
+
+            .quick-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .quick-btn {
+                min-height: 58px;
+                font-size: 14px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+<header class="topbar">
+
+    <div class="logo">
+
+        🤖 AI
+        <span>Habit Coach</span>
+
+    </div>
+
+    <a
+        href="index.html"
+        class="back-btn"
+    >
+        ← Back
+    </a>
+
+</header>
+
+
+<main class="container">
+
+
+    <section class="hero">
+
+        <h1>
+            🤖 AI Habit Coach
+        </h1>
+
+        <p>
+            Ask anything about habits,
+            motivation, study, sleep
+            and consistency.
+        </p>
+
+    </section>
+
+
+    <section class="coach-card">
+
+        <h2>
+            ⚡ Quick Questions
+        </h2>
+
+        <div class="quick-grid">
+
+            <button
+                class="quick-btn"
+                type="button"
+                data-question="How can I build a new habit?"
+            >
+                🌱 How can I build a new habit?
+            </button>
+
+            <button
+                class="quick-btn"
+                type="button"
+                data-question="How can I stay motivated?"
+            >
+                💪 How can I stay motivated?
+            </button>
+
+            <button
+                class="quick-btn"
+                type="button"
+                data-question="How can I improve my study habits?"
+            >
+                📚 How can I improve my study habits?
+            </button>
+
+            <button
+                class="quick-btn"
+                type="button"
+                data-question="How can I improve my sleep routine?"
+            >
+                😴 How can I improve my sleep routine?
+            </button>
+
+            <button
+                class="quick-btn"
+                type="button"
+                data-question="How can I start exercising regularly?"
+            >
+                🏃 How can I start exercising regularly?
+            </button>
+
+            <button
+                class="quick-btn"
+                type="button"
+                data-question="How can I stay consistent with my habits?"
+            >
+                🔥 How can I stay consistent?
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <section class="coach-card">
+
+        <h2>
+            💬 Ask AI Coach
+        </h2>
+
+        <div class="question-box">
+
+            <textarea
+                id="aiQuestion"
+                placeholder="Type your question here..."
+            ></textarea>
+
+            <button
+                id="askAIButton"
+                class="ask-btn"
+                type="button"
+            >
+                ✨ Ask AI Coach
+            </button>
+
+        </div>
+
+
+        <div
+            id="aiResponse"
+            class="response-box"
+        >
+
+            <div class="response-title">
+                🤖 AI Coach Response
+            </div>
+
+            <div
+                id="aiResponseText"
+                class="response-text"
+            ></div>
+
+        </div>
+
+    </section>
+
+
+</main>
+
+
+<footer class="footer">
+
+    AI Habit Coach © 2026
+
+</footer>
+
+
+<script>
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    console.log("AI Coach loaded successfully");
+
+
+    /* =========================================
+       BACKEND URL
+    ========================================= */
+
+    const API_URL =
+        "https://ai-habit-coach-backend.onrender.com";
+
+
+    /* =========================================
+       ELEMENTS
+    ========================================= */
+
+    const quickButtons =
+        document.querySelectorAll(".quick-btn");
+
+    const questionInput =
+        document.getElementById("aiQuestion");
+
+    const askButton =
+        document.getElementById("askAIButton");
+
+    const responseBox =
+        document.getElementById("aiResponse");
+
+    const responseText =
+        document.getElementById("aiResponseText");
+
+
+    /* =========================================
+       WAKE UP BACKEND
+       Runs immediately when page opens
+    ========================================= */
+
+    fetch(API_URL, {
+        method: "GET",
+        cache: "no-store"
+    })
+    .then(function () {
+
+        console.log(
+            "AI backend is awake"
+        );
+
+    })
+    .catch(function () {
+
+        console.log(
+            "Backend wake-up request failed"
+        );
+
+    });
+
+
+    /* =========================================
+       QUICK QUESTIONS
+    ========================================= */
+
+    quickButtons.forEach(function (button) {
+
+        button.addEventListener(
+            "click",
+            function () {
+
+                const question =
+                    button.getAttribute(
+                        "data-question"
+                    );
+
+
+                if (!questionInput || !question) {
+                    return;
+                }
+
+
+                questionInput.value =
+                    question;
+
+
+                questionInput.focus();
+
+
+                questionInput.style.borderColor =
+                    "#8b5cf6";
+
+                questionInput.style.boxShadow =
+                    "0 0 20px rgba(139,92,246,0.45)";
+
+
+                setTimeout(function () {
+
+                    questionInput.style.borderColor =
+                        "rgba(139,92,246,0.45)";
+
+                    questionInput.style.boxShadow =
+                        "none";
+
+                }, 800);
+
+            }
+        );
+
+    });
+
+
+    /* =========================================
+       ASK AI
+    ========================================= */
+
+    if (!askButton) {
+        return;
+    }
+
+
+    askButton.addEventListener(
+        "click",
+        async function () {
+
+
+            /* ---------------------------------
+               Prevent duplicate requests
+            --------------------------------- */
+
+            if (askButton.disabled) {
+                return;
+            }
+
+
+            const question =
+                questionInput
+                    ? questionInput.value.trim()
+                    : "";
+
+
+            /* ---------------------------------
+               Empty question
+            --------------------------------- */
+
+            if (!question) {
+
+                alert(
+                    "Please enter a question first."
+                );
+
+                if (questionInput) {
+                    questionInput.focus();
+                }
+
+                return;
+            }
+
+
+            /* ---------------------------------
+               SHOW RESPONSE IMMEDIATELY
+            --------------------------------- */
+
+            if (responseBox) {
+
+                responseBox.style.display =
+                    "block";
+
+            }
+
+
+            if (responseText) {
+
+                responseText.innerHTML =
+                    '<span class="loading">🤖 AI Coach is thinking...</span>';
+
+            }
+
+
+            askButton.disabled = true;
+
+            askButton.innerText =
+                "⏳ Thinking...";
+
+
+            const startTime =
+                Date.now();
+
+
+            try {
+
+
+                /* ---------------------------------
+                   SEND REQUEST
+                --------------------------------- */
+
+                const response =
+                    await fetch(
+                        API_URL + "/ai/advice",
+                        {
+                            method: "POST",
+
+                            headers: {
+                                "Content-Type":
+                                    "application/json",
+
+                                "Accept":
+                                    "application/json"
+                            },
+
+                            cache: "no-store",
+
+                            body:
+                                JSON.stringify({
+                                    question:
+                                        question
+                                })
+                        }
+                    );
+
+
+                console.log(
+                    "AI HTTP Status:",
+                    response.status
+                );
+
+
+                /* ---------------------------------
+                   READ RESPONSE
+                --------------------------------- */
+
+                const data =
+                    await response.json();
+
+
+                console.log(
+                    "AI Response:",
+                    data
+                );
+
+
+                /* ---------------------------------
+                   BACKEND ERROR
+                --------------------------------- */
+
+                if (!response.ok) {
+
+                    let errorMessage =
+                        "AI Coach could not process your request.";
+
+                    if (
+                        data &&
+                        typeof data.detail ===
+                            "string"
+                    ) {
+
+                        errorMessage =
+                            data.detail;
+
+                    }
+
+                    else if (
+                        data &&
+                        typeof data.message ===
+                            "string"
+                    ) {
+
+                        errorMessage =
+                            data.message;
+
+                    }
+
+
+                    throw new Error(
+                        errorMessage
+                    );
+                }
+
+
+                /* ---------------------------------
+                   AI ANSWER
+                --------------------------------- */
+
+                let answer = "";
+
+
+                if (
+                    data &&
+                    typeof data.advice ===
+                        "string"
+                ) {
+
+                    answer =
+                        data.advice.trim();
+
+                }
+
+
+                else if (
+                    data &&
+                    typeof data.message ===
+                        "string"
+                ) {
+
+                    answer =
+                        data.message.trim();
+
+                }
+
+
+                else if (
+                    data &&
+                    typeof data.detail ===
+                        "string"
+                ) {
+
+                    answer =
+                        data.detail.trim();
+
+                }
+
+
+                if (!answer) {
+
+                    answer =
+                        "AI could not generate a response. Please try again.";
+
+                }
+
+
+                if (responseText) {
+
+                    responseText.innerText =
+                        answer;
+
+                }
+
+
+                console.log(
+                    "AI response time:",
+                    Date.now() - startTime,
+                    "ms"
+                );
+
+
+            }
+
+            catch (error) {
+
+                console.error(
+                    "AI Coach Error:",
+                    error
+                );
+
+
+                if (responseText) {
+
+                    responseText.innerText =
+                        "Unable to connect to AI Coach. Please try again.";
+
+                }
+
+            }
+
+
+            finally {
+
+                askButton.disabled =
+                    false;
+
+                askButton.innerText =
+                    "✨ Ask AI Coach";
+
+            }
+
+        }
+    );
+
+});
+
+</script>
+
+
+</body>
+
+</html>
