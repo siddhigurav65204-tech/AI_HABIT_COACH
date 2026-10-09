@@ -1,0 +1,2256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>AI Habit Coach - Admin Dashboard</title>
+
+<link rel="icon" href="data:,">
+
+<style>
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: #080b14;
+    color: #ffffff;
+    min-height: 100vh;
+}
+
+/* =========================
+   LOGIN PAGE
+========================= */
+
+.login-page {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background:
+        radial-gradient(circle at top left, #24104f 0%, transparent 35%),
+        radial-gradient(circle at bottom right, #0d3d45 0%, transparent 35%),
+        #080b14;
+}
+
+.login-box {
+    width: 100%;
+    max-width: 420px;
+    background: rgba(20, 24, 39, 0.96);
+    border: 1px solid #343b5a;
+    border-radius: 20px;
+    padding: 35px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+}
+
+.login-box h1 {
+    text-align: center;
+    font-size: 28px;
+    margin-bottom: 10px;
+}
+
+.login-box p {
+    text-align: center;
+    color: #9ca3b8;
+    margin-bottom: 30px;
+}
+
+.input-group {
+    margin-bottom: 18px;
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 8px;
+    color: #cbd0e0;
+    font-size: 14px;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 14px;
+    border-radius: 10px;
+    border: 1px solid #3b4260;
+    background: #0e1220;
+    color: white;
+    outline: none;
+    font-size: 15px;
+}
+
+.input-group input:focus {
+    border-color: #8b5cf6;
+}
+
+.login-btn {
+    width: 100%;
+    padding: 14px;
+    border: none;
+    border-radius: 10px;
+    background: linear-gradient(135deg, #7c3aed, #4f46e5);
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 8px;
+}
+
+.login-btn:hover {
+    opacity: 0.9;
+}
+
+.login-message {
+    margin-top: 15px;
+    text-align: center;
+    font-size: 14px;
+    min-height: 20px;
+}
+
+/* =========================
+   ADMIN APP
+========================= */
+
+.admin-app {
+    display: none;
+    min-height: 100vh;
+}
+
+/* =========================
+   SIDEBAR
+========================= */
+
+.sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 245px;
+    background: #0d111d;
+    border-right: 1px solid #252b40;
+    padding: 25px 15px;
+    z-index: 100;
+}
+
+.logo {
+    text-align: center;
+    margin-bottom: 35px;
+}
+
+.logo h2 {
+    font-size: 21px;
+}
+
+.logo span {
+    color: #8b5cf6;
+}
+
+.nav-item {
+    padding: 14px 16px;
+    margin-bottom: 8px;
+    border-radius: 10px;
+    color: #aeb5c9;
+    cursor: pointer;
+    transition: 0.2s;
+    font-size: 14px;
+}
+
+.nav-item:hover {
+    background: #171c2d;
+    color: white;
+}
+
+.nav-item.active {
+    background: linear-gradient(135deg, #6d28d9, #4338ca);
+    color: white;
+}
+
+.nav-item.logout {
+    margin-top: 25px;
+    color: #f87171;
+}
+
+.nav-item.logout:hover {
+    background: rgba(239,68,68,0.12);
+}
+
+/* =========================
+   MAIN
+========================= */
+
+.main-content {
+    margin-left: 245px;
+    padding: 30px;
+    min-height: 100vh;
+}
+
+.section {
+    display: none;
+}
+
+.section.active {
+    display: block;
+}
+
+.page-title {
+    font-size: 28px;
+    margin-bottom: 7px;
+}
+
+.page-subtitle {
+    color: #8f97ad;
+    margin-bottom: 28px;
+}
+
+/* =========================
+   STAT CARDS
+========================= */
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 18px;
+    margin-bottom: 28px;
+}
+
+.stat-card {
+    background: #111625;
+    border: 1px solid #272e45;
+    border-radius: 16px;
+    padding: 22px;
+}
+
+.stat-icon {
+    font-size: 25px;
+    margin-bottom: 12px;
+}
+
+.stat-card h3 {
+    font-size: 28px;
+    margin-bottom: 5px;
+}
+
+.stat-card p {
+    color: #8e96aa;
+    font-size: 13px;
+}
+
+/* =========================
+   CARDS
+========================= */
+
+.card {
+    background: #111625;
+    border: 1px solid #272e45;
+    border-radius: 16px;
+    padding: 22px;
+    margin-bottom: 20px;
+}
+
+.card-title {
+    font-size: 18px;
+    margin-bottom: 18px;
+}
+
+/* =========================
+   DASHBOARD
+========================= */
+
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.info-box {
+    padding: 20px;
+    background: #0c101c;
+    border-radius: 12px;
+    border: 1px solid #252c42;
+}
+
+.info-box h3 {
+    margin-bottom: 10px;
+}
+
+.info-box p {
+    color: #949cb1;
+    line-height: 1.6;
+}
+
+/* =========================
+   USER ANALYSIS
+========================= */
+
+.search-box {
+    width: 100%;
+    padding: 14px 16px;
+    background: #0d1220;
+    border: 1px solid #323951;
+    border-radius: 10px;
+    color: white;
+    outline: none;
+    margin-bottom: 20px;
+}
+
+.search-box:focus {
+    border-color: #8b5cf6;
+}
+
+.users-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 18px;
+}
+
+.user-card {
+    background: #111625;
+    border: 1px solid #292f47;
+    border-radius: 16px;
+    padding: 20px;
+}
+
+.user-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 18px;
+}
+
+.user-avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #7c3aed, #2563eb);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.user-name {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.user-email {
+    color: #8991a6;
+    font-size: 13px;
+    margin-top: 4px;
+}
+
+.user-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    margin-bottom: 16px;
+}
+
+.user-stat {
+    background: #0b101c;
+    padding: 12px 6px;
+    border-radius: 9px;
+    text-align: center;
+}
+
+.user-stat strong {
+    display: block;
+    font-size: 18px;
+}
+
+.user-stat span {
+    color: #838ba0;
+    font-size: 11px;
+}
+
+.progress-wrapper {
+    margin-top: 10px;
+}
+
+.progress-label {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 7px;
+    font-size: 12px;
+    color: #9ba2b5;
+}
+
+.progress-bar {
+    height: 8px;
+    background: #252b3d;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #7c3aed, #22c55e);
+    border-radius: 20px;
+    transition: width 0.4s ease;
+}
+
+.habit-list {
+    margin-top: 15px;
+}
+
+.habit-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid #242a3c;
+}
+
+.habit-item:last-child {
+    border-bottom: none;
+}
+
+.habit-name {
+    color: white;
+    font-size: 13px;
+}
+
+.habit-category {
+    color: #a78bfa;
+    font-size: 11px;
+    margin-top: 3px;
+}
+
+.status {
+    font-size: 11px;
+    padding: 5px 9px;
+    border-radius: 20px;
+}
+
+.status.completed {
+    background: rgba(34,197,94,0.15);
+    color: #4ade80;
+}
+
+.status.pending {
+    background: rgba(234,179,8,0.15);
+    color: #facc15;
+}
+
+/* =========================
+   AI INSIGHTS
+========================= */
+
+.insights-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+    margin-bottom: 25px;
+}
+
+.insight-card {
+    background: #111625;
+    border: 1px solid #292f47;
+    border-radius: 16px;
+    padding: 22px;
+}
+
+.insight-icon {
+    font-size: 28px;
+    margin-bottom: 15px;
+}
+
+.insight-card h3 {
+    color: #8f97ac;
+    font-size: 13px;
+    font-weight: normal;
+    margin-bottom: 8px;
+}
+
+.insight-value {
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.insight-description {
+    color: #858da2;
+    font-size: 12px;
+    margin-top: 8px;
+    line-height: 1.5;
+}
+
+.recommendation {
+    background: linear-gradient(
+        135deg,
+        rgba(124,58,237,0.14),
+        rgba(37,99,235,0.08)
+    );
+    border: 1px solid #49377d;
+    border-radius: 16px;
+    padding: 25px;
+}
+
+.recommendation h2 {
+    margin-bottom: 10px;
+}
+
+.recommendation p {
+    color: #a7aec0;
+    line-height: 1.7;
+}
+
+/* =========================
+   EMPTY / LOADING
+========================= */
+
+.loading {
+    text-align: center;
+    padding: 40px;
+    color: #929aaf;
+}
+
+.empty {
+    text-align: center;
+    padding: 40px;
+    color: #8e96aa;
+}
+
+/* =========================
+   TOAST
+========================= */
+
+.toast {
+    position: fixed;
+    right: 25px;
+    bottom: 25px;
+    padding: 14px 18px;
+    background: #171d2c;
+    border: 1px solid #343c56;
+    border-radius: 10px;
+    display: none;
+    z-index: 9999;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+}
+
+.toast.success {
+    border-color: #22c55e;
+}
+
+.toast.error {
+    border-color: #ef4444;
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 1000px) {
+
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .insights-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .users-grid {
+        grid-template-columns: 1fr;
+    }
+
+}
+
+@media (max-width: 750px) {
+
+    .sidebar {
+        position: relative;
+        width: 100%;
+        height: auto;
+        border-right: none;
+        border-bottom: 1px solid #252b40;
+    }
+
+    .main-content {
+        margin-left: 0;
+        padding: 20px;
+    }
+
+    .logo {
+        margin-bottom: 18px;
+    }
+
+    .stats-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .insights-grid {
+        grid-template-columns: 1fr;
+    }
+
+}
+
+@media (max-width: 480px) {
+
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .user-stats {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .page-title {
+        font-size: 23px;
+    }
+
+    .login-box {
+        padding: 25px;
+    }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- =====================================================
+     ADMIN LOGIN
+===================================================== -->
+
+<div id="loginPage" class="login-page">
+
+    <div class="login-box">
+
+        <h1>🤖 AI Habit Coach</h1>
+
+        <p>Admin Login</p>
+
+        <form id="adminLoginForm">
+
+            <div class="input-group">
+
+                <label for="adminEmail">
+                    Admin Email
+                </label>
+
+                <input
+                    type="email"
+                    id="adminEmail"
+                    placeholder="Enter admin email"
+                    required
+                >
+
+            </div>
+
+            <div class="input-group">
+
+                <label for="adminPassword">
+                    Admin Password
+                </label>
+
+                <input
+                    type="password"
+                    id="adminPassword"
+                    placeholder="Enter admin password"
+                    required
+                >
+
+            </div>
+
+            <button
+                type="submit"
+                class="login-btn"
+                id="loginButton"
+            >
+                Login as Admin
+            </button>
+
+            <div
+                id="loginMessage"
+                class="login-message"
+            ></div>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     ADMIN APP
+===================================================== -->
+
+<div id="adminApp" class="admin-app">
+
+    <!-- SIDEBAR -->
+
+    <aside class="sidebar">
+
+        <div class="logo">
+
+            <h2>
+                🤖 <span>AI Habit</span> Coach
+            </h2>
+
+        </div>
+
+
+        <div
+            class="nav-item active"
+            data-target="dashboardSection"
+        >
+            📊 Admin Dashboard
+        </div>
+
+
+        <div
+            class="nav-item"
+            data-target="analysisSection"
+        >
+            📋 User Habit Analysis
+        </div>
+
+
+        <div
+            class="nav-item"
+            data-target="aiSection"
+        >
+            🤖 AI Insights
+        </div>
+
+
+        <div
+            class="nav-item logout"
+            id="logoutButton"
+        >
+            🚪 Logout
+        </div>
+
+    </aside>
+
+
+    <!-- MAIN CONTENT -->
+
+    <main class="main-content">
+
+
+        <!-- =================================================
+             ADMIN DASHBOARD
+        ================================================== -->
+
+        <section
+            id="dashboardSection"
+            class="section active"
+        >
+
+            <h1 class="page-title">
+                Admin Dashboard
+            </h1>
+
+            <p class="page-subtitle">
+                Overview of AI Habit Coach users and activities
+            </p>
+
+
+            <div class="stats-grid">
+
+                <div class="stat-card">
+
+                    <div class="stat-icon">
+                        👥
+                    </div>
+
+                    <h3 id="totalUsers">
+                        0
+                    </h3>
+
+                    <p>
+                        Total Users
+                    </p>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <div class="stat-icon">
+                        📋
+                    </div>
+
+                    <h3 id="totalHabits">
+                        0
+                    </h3>
+
+                    <p>
+                        Total Habits
+                    </p>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <div class="stat-icon">
+                        ✅
+                    </div>
+
+                    <h3 id="completedHabits">
+                        0
+                    </h3>
+
+                    <p>
+                        Completed Habits
+                    </p>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <div class="stat-icon">
+                        ⏳
+                    </div>
+
+                    <h3 id="pendingHabits">
+                        0
+                    </h3>
+
+                    <p>
+                        Pending Habits
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="dashboard-grid">
+
+                <div class="card">
+
+                    <div class="card-title">
+                        📈 Habit Completion
+                    </div>
+
+                    <div class="info-box">
+
+                        <h3 id="dashboardCompletion">
+                            0%
+                        </h3>
+
+                        <p>
+                            Overall habit completion rate
+                            across all registered users.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="card">
+
+                    <div class="card-title">
+                        🧠 System Status
+                    </div>
+
+                    <div class="info-box">
+
+                        <h3>
+                            🟢 Admin Connected
+                        </h3>
+
+                        <p>
+                            Admin authentication is active.
+                            User information is available only
+                            after successful admin authentication.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="card">
+
+                <div class="card-title">
+                    📊 Quick Summary
+                </div>
+
+                <div class="dashboard-grid">
+
+                    <div class="info-box">
+
+                        <h3>
+                            User Activity
+                        </h3>
+
+                        <p id="userSummary">
+                            Loading user activity...
+                        </p>
+
+                    </div>
+
+
+                    <div class="info-box">
+
+                        <h3>
+                            Habit Status
+                        </h3>
+
+                        <p id="habitSummary">
+                            Loading habit statistics...
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             USER HABIT ANALYSIS
+        ================================================== -->
+
+        <section
+            id="analysisSection"
+            class="section"
+        >
+
+            <h1 class="page-title">
+                User Habit Analysis
+            </h1>
+
+            <p class="page-subtitle">
+                View user-wise habit activity and completion
+            </p>
+
+
+            <input
+                type="text"
+                id="userSearch"
+                class="search-box"
+                placeholder="🔍 Search user by name or email..."
+            >
+
+
+            <div
+                id="usersContainer"
+                class="users-grid"
+            >
+
+                <div class="loading">
+                    Loading user data...
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             AI INSIGHTS
+        ================================================== -->
+
+        <section
+            id="aiSection"
+            class="section"
+        >
+
+            <h1 class="page-title">
+                AI Insights
+            </h1>
+
+            <p class="page-subtitle">
+                Intelligent insights generated from habit activity
+            </p>
+
+
+            <div class="insights-grid">
+
+
+                <div class="insight-card">
+
+                    <div class="insight-icon">
+                        📈
+                    </div>
+
+                    <h3>
+                        Overall Completion Rate
+                    </h3>
+
+                    <div
+                        class="insight-value"
+                        id="aiCompletionRate"
+                    >
+                        0%
+                    </div>
+
+                    <div class="insight-description">
+                        Overall completion percentage
+                        of all user habits.
+                    </div>
+
+                </div>
+
+
+                <div class="insight-card">
+
+                    <div class="insight-icon">
+                        🏆
+                    </div>
+
+                    <h3>
+                        Popular Category
+                    </h3>
+
+                    <div
+                        class="insight-value"
+                        id="popularCategory"
+                    >
+                        -
+                    </div>
+
+                    <div class="insight-description">
+                        Most frequently used habit category.
+                    </div>
+
+                </div>
+
+
+                <div class="insight-card">
+
+                    <div class="insight-icon">
+                        ⭐
+                    </div>
+
+                    <h3>
+                        Most Active User
+                    </h3>
+
+                    <div
+                        class="insight-value"
+                        id="activeUser"
+                    >
+                        -
+                    </div>
+
+                    <div class="insight-description">
+                        User with the highest number of habits.
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="recommendation">
+
+                <h2>
+                    🤖 AI Habit Recommendation
+                </h2>
+
+                <p id="aiRecommendation">
+                    Analyzing user habit activity...
+                </p>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+
+<!-- TOAST -->
+
+<div
+    id="toast"
+    class="toast"
+></div>
+
+
+<script>
+
+/* =====================================================
+   API
+===================================================== */
+
+const API_BASE_URL =
+    "https://ai-habit-coach-backend.onrender.com";
+
+
+/* =====================================================
+   GLOBAL DATA
+===================================================== */
+
+let allUsers = [];
+
+
+/* =====================================================
+   ELEMENTS
+===================================================== */
+
+const loginPage =
+    document.getElementById("loginPage");
+
+const adminApp =
+    document.getElementById("adminApp");
+
+const loginForm =
+    document.getElementById("adminLoginForm");
+
+const loginButton =
+    document.getElementById("loginButton");
+
+const loginMessage =
+    document.getElementById("loginMessage");
+
+const usersContainer =
+    document.getElementById("usersContainer");
+
+const userSearch =
+    document.getElementById("userSearch");
+
+
+/* =====================================================
+   TOAST
+===================================================== */
+
+function showToast(message, type = "success") {
+
+    const toast =
+        document.getElementById("toast");
+
+    toast.textContent = message;
+
+    toast.className =
+        "toast " + type;
+
+    toast.style.display = "block";
+
+    setTimeout(() => {
+
+        toast.style.display = "none";
+
+    }, 3000);
+}
+
+
+/* =====================================================
+   LOGIN
+===================================================== */
+
+loginForm.addEventListener(
+    "submit",
+    async function(event) {
+
+        event.preventDefault();
+
+        const email =
+            document
+            .getElementById("adminEmail")
+            .value
+            .trim();
+
+        const password =
+            document
+            .getElementById("adminPassword")
+            .value;
+
+        loginButton.disabled = true;
+
+        loginButton.textContent =
+            "Logging in...";
+
+        loginMessage.textContent = "";
+
+        try {
+
+            const response =
+                await fetch(
+                    API_BASE_URL + "/admin/login",
+                    {
+                        method: "POST",
+
+                        headers: {
+                            "Content-Type":
+                                "application/json"
+                        },
+
+                        body: JSON.stringify({
+                            email: email,
+                            password: password
+                        })
+                    }
+                );
+
+
+            const data =
+                await response.json()
+                .catch(() => ({}));
+
+
+            if (!response.ok) {
+
+                throw new Error(
+                    data.detail ||
+                    data.message ||
+                    "Invalid admin credentials"
+                );
+
+            }
+
+
+            if (!data.token) {
+
+                throw new Error(
+                    "Admin token was not received."
+                );
+
+            }
+
+
+            localStorage.setItem(
+                "adminToken",
+                data.token
+            );
+
+
+            loginMessage.style.color =
+                "#4ade80";
+
+            loginMessage.textContent =
+                "Admin login successful.";
+
+
+            showAdminApp();
+
+        }
+
+        catch(error) {
+
+            console.error(
+                "Admin login error:",
+                error
+            );
+
+            loginMessage.style.color =
+                "#f87171";
+
+            loginMessage.textContent =
+                error.message ||
+                "Admin login failed.";
+
+        }
+
+        finally {
+
+            loginButton.disabled = false;
+
+            loginButton.textContent =
+                "Login as Admin";
+
+        }
+
+    }
+);
+
+
+/* =====================================================
+   SHOW ADMIN APP
+===================================================== */
+
+function showAdminApp() {
+
+    const token =
+        localStorage.getItem("adminToken");
+
+    if (!token) {
+
+        showLoginPage();
+
+        return;
+
+    }
+
+
+    loginPage.style.display =
+        "none";
+
+    adminApp.style.display =
+        "block";
+
+
+    loadAdminData();
+
+}
+
+
+/* =====================================================
+   SHOW LOGIN
+===================================================== */
+
+function showLoginPage() {
+
+    loginPage.style.display =
+        "flex";
+
+    adminApp.style.display =
+        "none";
+
+}
+
+
+/* =====================================================
+   LOGOUT
+===================================================== */
+
+document
+    .getElementById("logoutButton")
+    .addEventListener(
+        "click",
+        function() {
+
+            localStorage.removeItem(
+                "adminToken"
+            );
+
+            allUsers = [];
+
+            showLoginPage();
+
+            document
+                .getElementById("adminPassword")
+                .value = "";
+
+            loginMessage.textContent = "";
+
+            showToast(
+                "Admin logged out successfully."
+            );
+
+        }
+    );
+
+
+/* =====================================================
+   NAVIGATION
+===================================================== */
+
+document
+    .querySelectorAll(".nav-item[data-target]")
+    .forEach(item => {
+
+        item.addEventListener(
+            "click",
+            function() {
+
+                const target =
+                    this.getAttribute(
+                        "data-target"
+                    );
+
+
+                document
+                    .querySelectorAll(
+                        ".nav-item[data-target]"
+                    )
+                    .forEach(nav => {
+
+                        nav.classList.remove(
+                            "active"
+                        );
+
+                    });
+
+
+                this.classList.add(
+                    "active"
+                );
+
+
+                document
+                    .querySelectorAll(
+                        ".section"
+                    )
+                    .forEach(section => {
+
+                        section.classList.remove(
+                            "active"
+                        );
+
+                    });
+
+
+                const targetSection =
+                    document.getElementById(
+                        target
+                    );
+
+
+                if (targetSection) {
+
+                    targetSection.classList.add(
+                        "active"
+                    );
+
+                }
+
+            }
+        );
+
+    });
+
+
+/* =====================================================
+   ADMIN API
+===================================================== */
+
+async function getAdminUsers() {
+
+    const token =
+        localStorage.getItem(
+            "adminToken"
+        );
+
+
+    if (!token) {
+
+        throw new Error(
+            "Admin session expired."
+        );
+
+    }
+
+
+    const response =
+        await fetch(
+            API_BASE_URL + "/admin/users",
+            {
+                method: "GET",
+
+                headers: {
+                    "X-Admin-Token": token,
+                    "Accept": "application/json"
+                },
+
+                cache: "no-store"
+            }
+        );
+
+
+    const data =
+        await response.json()
+        .catch(() => ({}));
+
+
+    if (response.status === 401 ||
+        response.status === 403) {
+
+        localStorage.removeItem(
+            "adminToken"
+        );
+
+        showLoginPage();
+
+        throw new Error(
+            "Admin session expired."
+        );
+
+    }
+
+
+    if (!response.ok) {
+
+        throw new Error(
+            data.detail ||
+            data.message ||
+            "Unable to load admin data."
+        );
+
+    }
+
+
+    return data;
+
+}
+
+
+/* =====================================================
+   NORMALIZE USERS
+===================================================== */
+
+function normalizeUsers(data) {
+
+    if (Array.isArray(data)) {
+
+        return data;
+
+    }
+
+
+    if (
+        data &&
+        Array.isArray(data.users)
+    ) {
+
+        return data.users;
+
+    }
+
+
+    if (
+        data &&
+        Array.isArray(data.data)
+    ) {
+
+        return data.data;
+
+    }
+
+
+    return [];
+
+}
+
+
+/* =====================================================
+   USER HABITS
+===================================================== */
+
+function getUserHabits(user) {
+
+    if (
+        user &&
+        Array.isArray(user.habits)
+    ) {
+
+        return user.habits;
+
+    }
+
+
+    if (
+        user &&
+        Array.isArray(user.habit)
+    ) {
+
+        return user.habit;
+
+    }
+
+
+    if (
+        user &&
+        Array.isArray(user.activities)
+    ) {
+
+        return user.activities;
+
+    }
+
+
+    return [];
+
+}
+
+
+/* =====================================================
+   HABIT STATUS
+===================================================== */
+
+function isCompleted(habit) {
+
+    const status =
+        String(
+            habit?.status || ""
+        )
+        .trim()
+        .toLowerCase();
+
+
+    return (
+        status === "completed" ||
+        status === "complete" ||
+        status === "done"
+    );
+
+}
+
+
+/* =====================================================
+   LOAD ADMIN DATA
+===================================================== */
+
+async function loadAdminData() {
+
+    try {
+
+        const data =
+            await getAdminUsers();
+
+
+        allUsers =
+            normalizeUsers(data);
+
+
+        updateDashboard();
+
+        renderUsers(
+            allUsers
+        );
+
+        updateAIInsights();
+
+
+    }
+
+    catch(error) {
+
+        console.error(
+            "Admin data error:",
+            error
+        );
+
+
+        usersContainer.innerHTML = `
+            <div class="empty">
+                ❌ ${escapeHtml(
+                    error.message ||
+                    "Unable to load user data."
+                )}
+            </div>
+        `;
+
+    }
+
+}
+
+
+/* =====================================================
+   DASHBOARD
+===================================================== */
+
+function updateDashboard() {
+
+    let totalHabits = 0;
+
+    let completed = 0;
+
+    let pending = 0;
+
+
+    allUsers.forEach(user => {
+
+        const habits =
+            getUserHabits(user);
+
+
+        totalHabits +=
+            habits.length;
+
+
+        habits.forEach(habit => {
+
+            if (isCompleted(habit)) {
+
+                completed++;
+
+            }
+
+            else {
+
+                pending++;
+
+            }
+
+        });
+
+    });
+
+
+    const totalUsers =
+        allUsers.length;
+
+
+    const completionRate =
+        totalHabits > 0
+            ? Math.round(
+                (completed /
+                totalHabits) * 100
+            )
+            : 0;
+
+
+    document
+        .getElementById("totalUsers")
+        .textContent =
+        totalUsers;
+
+
+    document
+        .getElementById("totalHabits")
+        .textContent =
+        totalHabits;
+
+
+    document
+        .getElementById("completedHabits")
+        .textContent =
+        completed;
+
+
+    document
+        .getElementById("pendingHabits")
+        .textContent =
+        pending;
+
+
+    document
+        .getElementById("dashboardCompletion")
+        .textContent =
+        completionRate + "%";
+
+
+    document
+        .getElementById("userSummary")
+        .textContent =
+        totalUsers +
+        " registered user" +
+        (totalUsers === 1 ? "" : "s") +
+        " currently available in the admin analysis.";
+
+
+    document
+        .getElementById("habitSummary")
+        .textContent =
+        totalHabits +
+        " total habit" +
+        (totalHabits === 1 ? "" : "s") +
+        " found: " +
+        completed +
+        " completed and " +
+        pending +
+        " pending.";
+
+}
+
+
+/* =====================================================
+   RENDER USERS
+===================================================== */
+
+function renderUsers(users) {
+
+    if (!users.length) {
+
+        usersContainer.innerHTML = `
+            <div class="empty">
+                No registered users found.
+            </div>
+        `;
+
+        return;
+
+    }
+
+
+    usersContainer.innerHTML =
+        users
+        .map(
+            (user, index) =>
+                createUserCard(
+                    user,
+                    index
+                )
+        )
+        .join("");
+
+}
+
+
+/* =====================================================
+   USER CARD
+===================================================== */
+
+function createUserCard(user, index) {
+
+    const name =
+        user?.name ||
+        user?.username ||
+        "User " + (index + 1);
+
+
+    const email =
+        user?.email ||
+        "No email available";
+
+
+    const habits =
+        getUserHabits(user);
+
+
+    const completed =
+        habits.filter(
+            habit => isCompleted(habit)
+        ).length;
+
+
+    const pending =
+        habits.length -
+        completed;
+
+
+    const completion =
+        habits.length > 0
+            ? Math.round(
+                (completed /
+                habits.length) * 100
+            )
+            : 0;
+
+
+    const initial =
+        name
+        .charAt(0)
+        .toUpperCase();
+
+
+    const habitHTML =
+        habits.length
+            ? habits
+                .slice(0, 6)
+                .map(habit => {
+
+                    const habitName =
+                        habit?.name ||
+                        habit?.title ||
+                        "Unnamed Habit";
+
+
+                    const category =
+                        habit?.category ||
+                        "General";
+
+
+                    const status =
+                        isCompleted(habit)
+                            ? "Completed"
+                            : "Pending";
+
+
+                    const statusClass =
+                        isCompleted(habit)
+                            ? "completed"
+                            : "pending";
+
+
+                    return `
+                        <div class="habit-item">
+
+                            <div>
+
+                                <div class="habit-name">
+                                    ${escapeHtml(
+                                        habitName
+                                    )}
+                                </div>
+
+                                <div class="habit-category">
+                                    ${escapeHtml(
+                                        category
+                                    )}
+                                </div>
+
+                            </div>
+
+                            <span
+                                class="status ${statusClass}"
+                            >
+                                ${status}
+                            </span>
+
+                        </div>
+                    `;
+
+                })
+                .join("")
+            : `
+                <div class="empty">
+                    No habits available.
+                </div>
+            `;
+
+
+    return `
+
+        <div
+            class="user-card"
+            data-user-search="${escapeHtml(
+                (name + " " + email)
+                .toLowerCase()
+            )}"
+        >
+
+            <div class="user-header">
+
+                <div class="user-avatar">
+                    ${escapeHtml(initial)}
+                </div>
+
+                <div>
+
+                    <div class="user-name">
+                        ${escapeHtml(name)}
+                    </div>
+
+                    <div class="user-email">
+                        ${escapeHtml(email)}
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="user-stats">
+
+                <div class="user-stat">
+
+                    <strong>
+                        ${habits.length}
+                    </strong>
+
+                    <span>
+                        Habits
+                    </span>
+
+                </div>
+
+
+                <div class="user-stat">
+
+                    <strong>
+                        ${completed}
+                    </strong>
+
+                    <span>
+                        Completed
+                    </span>
+
+                </div>
+
+
+                <div class="user-stat">
+
+                    <strong>
+                        ${pending}
+                    </strong>
+
+                    <span>
+                        Pending
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="progress-wrapper">
+
+                <div class="progress-label">
+
+                    <span>
+                        Completion
+                    </span>
+
+                    <span>
+                        ${completion}%
+                    </span>
+
+                </div>
+
+                <div class="progress-bar">
+
+                    <div
+                        class="progress-fill"
+                        style="width:${completion}%"
+                    ></div>
+
+                </div>
+
+            </div>
+
+
+            <div class="habit-list">
+
+                ${habitHTML}
+
+            </div>
+
+        </div>
+
+    `;
+
+}
+
+
+/* =====================================================
+   USER SEARCH
+===================================================== */
+
+userSearch.addEventListener(
+    "input",
+    function() {
+
+        const search =
+            this.value
+            .trim()
+            .toLowerCase();
+
+
+        const cards =
+            document.querySelectorAll(
+                ".user-card"
+            );
+
+
+        cards.forEach(card => {
+
+            const text =
+                card
+                .getAttribute(
+                    "data-user-search"
+                ) || "";
+
+
+            card.style.display =
+                text.includes(search)
+                    ? "block"
+                    : "none";
+
+        });
+
+    }
+);
+
+
+/* =====================================================
+   AI INSIGHTS
+===================================================== */
+
+function updateAIInsights() {
+
+    let totalHabits = 0;
+
+    let completed = 0;
+
+    const categoryCounts = {};
+
+    let activeUserName = "-";
+
+    let activeUserCount = 0;
+
+
+    allUsers.forEach(user => {
+
+        const habits =
+            getUserHabits(user);
+
+
+        if (
+            habits.length >
+            activeUserCount
+        ) {
+
+            activeUserCount =
+                habits.length;
+
+
+            activeUserName =
+                user?.name ||
+                user?.username ||
+                "-";
+
+        }
+
+
+        habits.forEach(habit => {
+
+            totalHabits++;
+
+
+            if (isCompleted(habit)) {
+
+                completed++;
+
+            }
+
+
+            const category =
+                habit?.category ||
+                "General";
+
+
+            categoryCounts[category] =
+                (categoryCounts[category] || 0) + 1;
+
+        });
+
+    });
+
+
+    const completionRate =
+        totalHabits > 0
+            ? Math.round(
+                (completed /
+                totalHabits) * 100
+            )
+            : 0;
+
+
+    let popularCategory = "-";
+
+    let highestCategoryCount = 0;
+
+
+    Object.keys(categoryCounts)
+        .forEach(category => {
+
+            if (
+                categoryCounts[category] >
+                highestCategoryCount
+            ) {
+
+                highestCategoryCount =
+                    categoryCounts[category];
+
+                popularCategory =
+                    category;
+
+            }
+
+        });
+
+
+    document
+        .getElementById("aiCompletionRate")
+        .textContent =
+        completionRate + "%";
+
+
+    document
+        .getElementById("popularCategory")
+        .textContent =
+        popularCategory;
+
+
+    document
+        .getElementById("activeUser")
+        .textContent =
+        activeUserName;
+
+
+    let recommendation =
+        "";
+
+
+    if (totalHabits === 0) {
+
+        recommendation =
+            "No habit data is available yet. Once users create habits, AI Insights will analyze completion patterns and provide useful recommendations.";
+
+    }
+
+    else if (completionRate >= 80) {
+
+        recommendation =
+            "Excellent overall performance. Users are maintaining strong habit consistency. Continue encouraging regular routines and small achievable goals.";
+
+    }
+
+    else if (completionRate >= 50) {
+
+        recommendation =
+            "The overall habit completion is moderate. Users may benefit from reminders, smaller daily goals, and consistent progress tracking.";
+
+    }
+
+    else {
+
+        recommendation =
+            "The overall completion rate is low. Encourage users to create realistic habits, use reminders, and focus on completing one habit consistently before adding more.";
+
+    }
+
+
+    document
+        .getElementById("aiRecommendation")
+        .textContent =
+        recommendation;
+
+}
+
+
+/* =====================================================
+   ESCAPE HTML
+===================================================== */
+
+function escapeHtml(value) {
+
+    return String(value)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+
+}
+
+
+/* =====================================================
+   AUTO LOGIN
+===================================================== */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function() {
+
+        const token =
+            localStorage.getItem(
+                "adminToken"
+            );
+
+
+        if (token) {
+
+            showAdminApp();
+
+        }
+
+        else {
+
+            showLoginPage();
+
+        }
+
+    }
+);
+
+</script>
+
+</body>
+</html>
